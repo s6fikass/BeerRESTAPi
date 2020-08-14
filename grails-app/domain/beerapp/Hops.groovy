@@ -1,20 +1,23 @@
 package beerapp
-
-
 import grails.persistence.Entity
 import io.micronaut.core.annotation.Introspected
 
-@Entity
+
 @Introspected
-class Hop {
+@Entity
+class Hops {
 
     String name
     Amount amount
-    String add
+
+    String addition
     String attribute
 
     static mapping = {
         amount cascade:'all'
     }
+
     static belongsTo = [ingredient:Ingredient]
+
 }
+

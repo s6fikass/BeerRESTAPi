@@ -6,5 +6,8 @@ import io.micronaut.core.annotation.Introspected
 @Introspected
 class Fermentation {
     Temperature temp
+    static mapping = {
+        temp cascade:'all'
 
+    }
 }

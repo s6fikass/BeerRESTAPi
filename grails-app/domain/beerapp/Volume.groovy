@@ -9,7 +9,5 @@ class Volume {
     Integer value
     String unit
 
-    static constraints = {
-        value unique: true
-    }
+
 }

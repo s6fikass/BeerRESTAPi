@@ -1,5 +1,5 @@
 package beerapp
-
+import org.springframework.web.bind.annotation.RequestMapping
 
 
 class BeersController {
@@ -11,9 +11,11 @@ class BeersController {
         [beers: beers]
     }
 
-    def ListBeers(){
-
-
+    def beerName(){
+        Beer beer = BeerService.getBeerbyname()
+        List<Beer> beers=new ArrayList<Beer>()
+        beers.add(beer)
+        [beers: beers]
     }
 
 //    def ListAllBeersWeather(){

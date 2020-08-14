@@ -24,6 +24,12 @@
 
 <body>
     <div id="content" role="main">
+        </br>
+        <g:form controller="beers"
+            <g:textField name="beername" required="true"/><br/><br/>
+            <g:actionSubmit value="Get beer by name" action="beername"/> <br/>
+        </g:form>
+
         <section class="row colset-2-its">
 
                    <div id ="dtBasicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 tg-wrap">

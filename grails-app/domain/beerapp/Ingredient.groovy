@@ -10,13 +10,12 @@ class Ingredient {
 
 
     List<Malt> malt
-    List<Hop> hops
+    List<Hops> hops
     String yeast
 
     static mapping = {
         malt cascade:'all'
         hops cascade:'all'
     }
-    static belongsTo = [beer:Beer]
-    static hasMany = [hops: Hop, malt: Malt ]
+    static hasMany = [hops: Hops, malt: Malt ]
 }

@@ -24,7 +24,7 @@ class Beer {
     Volume volume
     Volume boil_volume
     PrepatationMethod method
-    List<Ingredient> ingredients
+    Ingredient ingredients
     List<String> food_pairing
     String brewers_tips
     String contributed_by
@@ -37,10 +37,7 @@ class Beer {
         boil_volume cascade:'all'
     }
 
-    static hasMany = [ingredients: Ingredient]
-    static constraints = {
-        id unique: true
-    }
+
 
     Beer(Beer beer){
         this.volume=beer.volume

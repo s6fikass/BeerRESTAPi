@@ -9,7 +9,5 @@ class Amount {
     Float value
     String unit
 
-    static constraints = {
-        value unique: true
-    }
+
 }

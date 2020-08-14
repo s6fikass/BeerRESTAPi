@@ -1,6 +1,7 @@
 package beerapp
 
 import grails.config.Config
+import grails.converters.JSON
 import grails.core.support.GrailsConfigurationAware
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileDynamic
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Logger
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.ThreadContext
 import groovy.util.logging.Slf4j
+import org.grails.web.json.JSONElement
 
 @Slf4j
 @Transactional
@@ -26,6 +28,7 @@ class BeerService implements GrailsConfigurationAware{
 
     String punkAPIUrl
     BlockingHttpClient client
+
 //    final Logger log = LogManager.getLogger(getClass())
 
     @Override
@@ -58,40 +61,44 @@ class BeerService implements GrailsConfigurationAware{
 
                 UriBuilder uriBuilder = UriBuilder.of('/v2/beers')
                         .queryParam('page', i.toString())
-                        .queryParam('per_page', "80")
+                        .queryParam('per_page', "1")
 
                 HttpRequest request = HttpRequest.GET(uriBuilder.build())
 
-                List<Beer> temp_list= client.retrieve(request, Argument.listOf(Beer) )
+                String response= client.retrieve(request )//Argument.listOf(Beer)
+                if(response=="[]"){
+                    return res
+                }
+                JSONElement json= JSON.parse(response)
+                List<Beer> temp_list= new ArrayList<Beer>()
+                for(int j=0;j<json.size();j++){
+                   Beer temp =  BeerparseService.BeerFromJSONElement(json.get(j))
+                    temp_list.add(temp)
+                }
+
 
                 if(temp_list.size()==0){
                     return res
                 }else{
                     res.addAll(temp_list)
                 }
-//        for(int i=0;i<res.size();i++){
-//            res.get(i).save()
-//        }
+
             } catch (HttpClientResponseException e) {
                 return "Error"
 
             }
 
         }
-        for(int i=0;i<res.size();i++){
-            log.info(res.get(i))
-//            res.get(i).save(flush: true)
-            saveBeer(res.get(i))
-        }
-//        saveAll
+
         return res
 
         }
-    void saveBeer(Beer beer){
-        Beer resBeer= new Beer(beer)
-//        resBeer.ingredients.addAll(beer.ingredients)
-        resBeer.save(flush: true)
+
+    Beer getBeerbyname(String name){
+           def beer= Beer.findByName(name)
+        return beer
     }
+
 
     }
 
